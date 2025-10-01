@@ -1,23 +1,28 @@
 networks:
-  mynetwork:
+  carm_network:
     external: true
 # 服务node
 services:
-  xxx:
-    container_name: xxx
-    hostname: xxx
-    image: xxx
+  haproxy:
+    container_name: haproxy
+    hostname: haproxy
+    image: dayello/centos:arm64_7.9.2009
     networks:
-      mynetwork:
-        ipv4_address: 192.169.xxx.xxx
-    environment:
-      - JAVA_HOME=/opt/jdk
-      - PATH=/opt/jdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      carm_network:
+        ipv4_address: 192.170.1.1
+    # environment:
+    #   - JAVA_HOME=/opt/jdk
+    #   - PATH=/opt/jdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    ports:
+      - 7100:7100
+      - 7200:7200
+      - 1936:1936
     volumes:
-      - ../../public/code/jdk-17.0.13+11:/opt/jdk
       - ../../public/script/hosts:/etc/hosts
       - ../../public/download:/data/download
       - ./script:/data/script
+      - ./code:/data/code
+      - ./conf/haproxy.cfg:/etc/haproxy/haproxy.cfg
     tty: true
     # systemctl 能够正常使用
     privileged: true

@@ -3,14 +3,14 @@
 
 ## 第一步：创建一个公用网络
 ```shell
-docker network create --subnet=192.169.0.0/16 mynetwork
+docker network create --subnet=192.170.0.0/16 carm_network
 ```
 
-## 第二步：docker-compose.yml 指定使用网络： mynetwork
+## 第二步：docker-compose.yml 指定使用网络： carm_network
 ```shell
 # 文件开头设置
 networks:
-  mynetwork:
+  carm_network:
     external: true
 ```
 
@@ -19,8 +19,8 @@ networks:
 services:
   服务名称:
     networks:
-      mynetwork:
-        ipv4_address: 192.169.20.1
+      carm_network:
+        ipv4_address: 192.170.20.1  
 ```
 
 ## 第四步： 设置统一的 hosts
@@ -29,6 +29,9 @@ services:
 # 2. 编辑 docker-compose.yml 设置卷
 services:
   服务名称:
+    networks:
+      carm_network:
+        ipv4_address: 192.170.20.1
     volumes:
       - ../../public/script/hosts:/etc/hosts
 ```
@@ -36,8 +39,8 @@ services:
 ## 服务统一配置项
 ```shell
     networks:
-      mynetwork:
-        ipv4_address: 192.169.xxx.xxx
+      carm_network:
+        ipv4_address: 192.170.xxx.xxx
     environment:
       - JAVA_HOME=/opt/jdk
       - PATH=/opt/jdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
