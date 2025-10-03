@@ -1,4 +1,4 @@
-package org.carm.web.endpoint;
+package org.carm.web.handler;
 
 import io.github.yezhihao.netmc.session.Session;
 import org.carm.protocol.codec.MultiPacket;

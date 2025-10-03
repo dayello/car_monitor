@@ -1,4 +1,4 @@
-package org.carm.web.config;
+package org.carm.web.socket;
 
 import io.github.yezhihao.netmc.NettyConfig;
 import io.github.yezhihao.netmc.Server;
@@ -9,21 +9,21 @@ import io.github.yezhihao.netmc.session.SessionListener;
 import io.github.yezhihao.netmc.session.SessionManager;
 import io.github.yezhihao.protostar.SchemaManager;
 import org.carm.protocol.codec.*;
-import org.carm.web.endpoint.JTHandlerInterceptor;
-import org.carm.web.endpoint.JTMultiPacketListener;
+import org.carm.web.config.JTProperties;
+import org.carm.web.handler.JTHandlerInterceptor;
+import org.carm.web.handler.JTMultiPacketListener;
 import org.carm.web.model.enums.SessionKey;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.carm.commons.spring.SSEService;
-import org.carm.web.endpoint.JTMessagePushAdapter;
-import org.carm.web.endpoint.JTMessageLoggingAdapter;
+import org.carm.web.handler.JTMessagePushAdapter;
 
 @Order(Integer.MIN_VALUE)
 @Configuration
 @ConditionalOnProperty(value = "jt-server.jt808.enabled", havingValue = "true", matchIfMissing = true)
-public class JTConfig {
+public class NewJTSocket {
 
     @ConditionalOnProperty(value = "jt-server.jt808.tcp-port")
     @Bean(initMethod = "start", destroyMethod = "stop")
@@ -97,7 +97,7 @@ public class JTConfig {
     public JTMessageAdapter jtMessageAdapter(SchemaManager schemaManager, SSEService sseService) {
         JTMessageEncoder messageEncoder = new JTMessageEncoder(schemaManager);
         JTMessageDecoder messageDecoder = new MultiPacketDecoder(schemaManager, new JTMultiPacketListener(10));
-        return new JTMessageLoggingAdapter(messageEncoder, messageDecoder, sseService);
+        return new JTMessagePushAdapter(messageEncoder, messageDecoder, sseService);
     }
 
     @Bean

@@ -9,7 +9,7 @@ import io.github.yezhihao.netmc.session.SessionManager;
 import org.apache.logging.log4j.Level;
 import org.carm.commons.util.LogUtils;
 import org.carm.protocol.codec.JTMessageAdapter;
-import org.carm.web.endpoint.JTHandlerInterceptor;
+import org.carm.web.handler.JTHandlerInterceptor;
 
 /**
  * 不依赖spring，快速启动netty服务

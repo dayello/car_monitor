@@ -1,6 +1,11 @@
 spring:
   application:
     name: jt808
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      # password: your_password
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

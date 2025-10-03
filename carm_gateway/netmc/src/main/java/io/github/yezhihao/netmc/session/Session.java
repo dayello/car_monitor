@@ -142,6 +142,17 @@ public class Session {
         return remoteAddress;
     }
 
+    public InetSocketAddress localAddress() {
+        return (InetSocketAddress) channel.localAddress();
+    }
+
+    public String getLocalAddressStr() {
+        InetSocketAddress local = localAddress();
+        if (local == null) return "";
+        String host = local.getAddress() != null ? local.getAddress().getHostAddress() : local.getHostString();
+        return host + ':' + local.getPort();
+    }
+
     public void requestInterceptor(BiConsumer<Session, Message> requestInterceptor) {
         if (requestInterceptor != null)
             this.requestInterceptor = requestInterceptor;
@@ -259,7 +270,8 @@ public class Session {
 
     private static String responseKey(Object response) {
         String className = response.getClass().getName();
-        if (response instanceof Response resp) {
+        if (response instanceof Response) {
+            Response resp = (Response) response;
             return className + '.' + resp.getResponseSerialNo();
         }
         return className;

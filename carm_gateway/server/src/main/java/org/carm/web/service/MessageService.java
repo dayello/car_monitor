@@ -1,4 +1,4 @@
-package org.carm.web.endpoint;
+package org.carm.web.service;
 
 import io.github.yezhihao.netmc.session.Session;
 import io.github.yezhihao.netmc.session.SessionManager;
@@ -17,7 +17,7 @@ import java.time.Duration;
  */
 @Slf4j
 @Component
-public class MessageManager {
+public class MessageService {
 
     private static final Mono<Void> NEVER = Mono.never();
     private static final Mono OFFLINE_EXCEPTION = Mono.error(new APIException(4000, "离线的客户端（请检查设备是否注册或者鉴权）"));
@@ -27,7 +27,7 @@ public class MessageManager {
 
     private SessionManager sessionManager;
 
-    public MessageManager(SessionManager sessionManager) {
+    public MessageService(SessionManager sessionManager) {
         this.sessionManager = sessionManager;
     }
 

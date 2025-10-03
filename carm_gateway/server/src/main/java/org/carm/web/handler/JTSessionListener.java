@@ -1,9 +1,11 @@
-package org.carm.web.endpoint;
+package org.carm.web.handler;
 
 import io.github.yezhihao.netmc.core.model.Message;
 import io.github.yezhihao.netmc.session.Session;
 import io.github.yezhihao.netmc.session.SessionListener;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+import jakarta.annotation.Resource;
 import org.carm.protocol.basics.JTMessage;
 import org.carm.web.model.entity.DeviceDO;
 import org.carm.web.model.enums.SessionKey;
@@ -52,6 +54,15 @@ public class JTSessionListener implements SessionListener {
      */
     @Override
     public void sessionRegistered(Session session) {
+        // 保存映射：clientId -> 网关实例（ip:port）
+        try {
+            String instance = session.getLocalAddressStr();
+            String clientKey = "jt:gateway:client:" + session.getClientId();
+            String sessionKey = "jt:gateway:session:" + session.getId();
+            redis.opsForValue().set(clientKey, instance);
+            redis.opsForValue().set(sessionKey, instance);
+        } catch (Exception ignored) {
+        }
     }
 
     /**
@@ -59,5 +70,15 @@ public class JTSessionListener implements SessionListener {
      */
     @Override
     public void sessionDestroyed(Session session) {
+        try {
+            String clientKey = "jt:gateway:client:" + session.getClientId();
+            String sessionKey = "jt:gateway:session:" + session.getId();
+            redis.delete(clientKey);
+            redis.delete(sessionKey);
+        } catch (Exception ignored) {
+        }
     }
+
+    @Resource
+    private StringRedisTemplate redis;
 }

@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import org.carm.commons.spring.SSEService;
 import org.carm.protocol.codec.JTMessageDecoder;
 import org.carm.protocol.codec.JTMessageEncoder;
+import org.carm.web.handler.JTMessagePushAdapter;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -27,7 +28,7 @@ public class JTMessageLoggingAdapterTest {
         Mockito.when(session.toString()).thenReturn("Session[test-client]");
         
         // 创建测试适配器
-        JTMessageLoggingAdapter adapter = new JTMessageLoggingAdapter(encoder, decoder, sseService);
+        JTMessagePushAdapter adapter = new JTMessagePushAdapter(encoder, decoder, sseService);
         
         // 创建测试数据 - 模拟一个无效的JT808消息
         byte[] testData = {0x7e, 0x01, 0x02, 0x03, 0x04, 0x7e}; // 简单的测试数据
