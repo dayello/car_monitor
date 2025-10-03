@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: jt808
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      # password: your_password
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+
+mybatis-plus:
+  configuration:
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  mapper-locations:
+    - classpath:/mapper/*.xml
+
+server:
+  port: 8100
+
+jt-server:
+  jt808:
+    tcp-port: 7100
+    udp-port: 7100
+    idle-timeout: 180
+    message-package: org.carm.protocol
+    t0801:
+      path: D:/jt_data/media_file
+    t9208:
+      host: 127.0.0.1
+      port: 7200
+      enabled: true
+      path: D:/jt_data/alarm_file
+    t9206:
+      host: 127.0.0.1
+      port: 21
+      username: test
+      password: test

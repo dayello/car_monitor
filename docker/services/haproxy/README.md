@@ -1,1 +1,0 @@
-/data/code/haproxy/bin/haproxy -f /etc/haproxy/haproxy.cfg

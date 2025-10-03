@@ -1,0 +1,40 @@
+# 编译输出目录
+target/
+build/
+dist/
+out/
+
+# IDE 缓存与配置
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# 操作系统生成文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+logs/
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+
+# 依赖缓存（如 Node）
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 环境配置
+.env
+.env.local
