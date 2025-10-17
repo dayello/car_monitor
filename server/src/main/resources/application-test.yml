@@ -44,3 +44,9 @@ jt-server:
       port: 21
       username: test
       password: test
+  pulsar:
+    enabled: true
+    service-url: pulsar://127.0.0.1:6650
+    topic-up: persistent://public/default/jt808-up
+    topic-down: persistent://public/default/jt808-down
+    producer-name-prefix: gateway-jt808

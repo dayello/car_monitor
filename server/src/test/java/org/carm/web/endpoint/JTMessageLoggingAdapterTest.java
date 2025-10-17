@@ -40,7 +40,7 @@ public class JTMessageLoggingAdapterTest {
             System.out.println("测试完成：消息记录功能正常工作");
         } catch (Exception e) {
             System.out.println("测试异常：" + e.getMessage());
-        }
+        } 
         
         // 验证SSE服务被调用
         Mockito.verify(sseService, Mockito.atLeastOnce()).send(Mockito.eq("test-client"), Mockito.anyString());

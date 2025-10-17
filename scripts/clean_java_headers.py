@@ -32,7 +32,8 @@ from typing import List, Optional, Tuple
 
 
 HEADER_SIGNATURE_DEFAULT = b"%TSD-Header-###%"
-PACKAGE_RE = re.compile(rb"^package\s", re.MULTILINE)
+# Match the first occurrence of 'package' anywhere (handles BOM or garbage at file start)
+PACKAGE_RE = re.compile(rb"package\s", re.MULTILINE)
 
 
 def find_java_files(roots: List[str]) -> List[str]:
@@ -79,13 +80,13 @@ def trim_to_package(data: bytes) -> Optional[bytes]:
 
 def needs_clean(data: bytes, signature: bytes) -> bool:
     # Clean if signature exists or there is any non-whitespace before package
-    if signature and signature in data:
-        return True
     m = PACKAGE_RE.search(data)
     if not m:
         # No package declaration found — likely not a Java source or corrupted.
         return False
     head = data[: m.start()]
+    if signature and signature in data:
+        return True
     # If the head is not empty after stripping common whitespace, it likely contains garbage
     return head.strip() != b""
 

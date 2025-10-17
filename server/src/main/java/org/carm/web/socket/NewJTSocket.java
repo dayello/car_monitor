@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.carm.commons.spring.SSEService;
 import org.carm.web.handler.JTMessagePushAdapter;
+import org.carm.web.service.PulsarService;
+import org.springframework.beans.factory.ObjectProvider;
 
 @Order(Integer.MIN_VALUE)
 @Configuration
@@ -94,9 +96,13 @@ public class NewJTSocket {
     }
 
     @Bean
-    public JTMessageAdapter jtMessageAdapter(SchemaManager schemaManager, SSEService sseService) {
+    public JTMessageAdapter jtMessageAdapter(SchemaManager schemaManager, SSEService sseService, ObjectProvider<PulsarService> pulsarServiceProvider) {
         JTMessageEncoder messageEncoder = new JTMessageEncoder(schemaManager);
         JTMessageDecoder messageDecoder = new MultiPacketDecoder(schemaManager, new JTMultiPacketListener(10));
+        PulsarService pulsarService = pulsarServiceProvider.getIfAvailable();
+        if (pulsarService != null) {
+            return new JTMessagePushAdapter(messageEncoder, messageDecoder, sseService, pulsarService);
+        }
         return new JTMessagePushAdapter(messageEncoder, messageDecoder, sseService);
     }
 
